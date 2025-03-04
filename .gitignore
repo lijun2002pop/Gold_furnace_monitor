@@ -1,0 +1,17 @@
+**/__pycache__
+**/logs/**
+**/download/**
+**/resource_big/**
+**/savedir/**
+**crane_data.xlsx**
+**main.spec**
+.idea/**
+.gitee/**
+.vscode/**
+**/.idea/**
+**/configs/config.json
+**/test/**
+**/build/**
+**/dist/**
+**main.exe**
+**/configs/**
