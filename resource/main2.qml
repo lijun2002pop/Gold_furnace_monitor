@@ -11,8 +11,6 @@ Window {
     height: Screen.height
     visible: true
     title: qsTr(backend.title_name)
-    Component.onCompleted: backend.threadstart()
-    onClosing: backend.threadstop()
     FluInfoBar {
         id: infoBar
         root: windows
@@ -20,11 +18,6 @@ Window {
     DateTimePicker {
         id:date
         visible:false
-    }
-    ImgShow{
-        id:imgshow
-        visible:false
-        imgpath:""
     }
     // 导航条
     HeadMenu {
@@ -41,8 +34,10 @@ Window {
             anchors.fill: parent
             Rectangle {
                 anchors.fill: parent
+
                 id: homePage
                 visible: backend.pageindex == 0
+
                 color: "transparent"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -54,15 +49,17 @@ Window {
                     Pycv.CVQImage{
                         anchors.margins: 5
                         anchors.fill:parent
-                        image:backend.camera.drawimage
+                        image:backend.image
                     }
                 }
             }
             //系统配置
             Rectangle {
                 anchors.fill: parent
+
                 id: systemConfigPage
                 visible: backend.pageindex == 1
+
                 color: "lightblue"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -89,7 +86,7 @@ Window {
                             Pycv.CVQImage{
                                 anchors.margins: 5
                                 anchors.fill:parent
-                                image:backend.camera.image
+                                image:backend.image
                             }
                         }
                     }
@@ -98,6 +95,7 @@ Window {
             //温度监测记录
             Rectangle {
                 anchors.fill: parent
+
                 id: temp
                 visible: backend.pageindex == 2
                 color: "lightyellow"
@@ -109,6 +107,7 @@ Window {
             //报警数据记录
             Rectangle {
                 anchors.fill: parent
+
                 id: warn
                 visible: backend.pageindex == 3
                 color: "lightyellow"
@@ -120,8 +119,10 @@ Window {
             //异常数据记录
             Rectangle {
                 anchors.fill: parent
+
                 id: err
                 visible: backend.pageindex == 4
+
                 color: "lightyellow"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -131,6 +132,7 @@ Window {
             //温度曲线
             Rectangle {
                 anchors.fill: parent
+
                 id: linechartPage
                 visible: backend.pageindex == 5
                 color: "lightgreen"
@@ -142,6 +144,7 @@ Window {
             //炉衬厚度预测
             Rectangle {
                 anchors.fill: parent
+
                 id: thickness
                 visible: backend.pageindex == 6
                 color: "lightyellow"
@@ -152,8 +155,10 @@ Window {
             }
             Rectangle {
                 anchors.fill: parent
+
                 id: chartPage
                 visible: backend.pageindex == 7
+
                 color: "lightgreen"
                 Layout.fillWidth: true
                 Layout.fillHeight: true

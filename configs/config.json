@@ -1,0 +1,6 @@
+{
+    "title-name": "高炉监测测试",
+    "conn": "mssql+pymssql://sa:Anchor.1234@127.0.0.1/Furnace?charset=utf8",
+    "save-path": "C:/Users/lijun/Desktop/project/Gold_furnace_monitor/tools",
+    "save-interval": 50
+}

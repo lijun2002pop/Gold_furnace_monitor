@@ -1,0 +1,12 @@
+Python环境的搭建
+python: 3.9
+-i https://pypi.tuna.tsinghua.edu.cn/simple 镜像源
+
+windows: 64bit
+
+JAI相机
+    安装eBUS SDK 64-bit
+
+1.python -m pip install ebus_python-6.4.0-6670_jai-py39-none-win_amd64.whl
+
+2.pip install sqlalchemy pymssql opencv-python pyside6 PySide6-FluentUI-QML

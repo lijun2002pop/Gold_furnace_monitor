@@ -1,15 +1,16 @@
 import sys
 
 import FluentUI
+from PySide6 import QtWidgets
 from PySide6.QtCore import *
-from PySide6.QtGui import QGuiApplication, QAction
+from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 from Backend_Model import Backend
 import CvImage as cV
 
 # 窗口类，继承自 QObject
 class MyWindow(QObject):
-    def __init__(self):  # 构造函数
+    def __init__(self,):  # 构造函数
         super().__init__()  # 继承父类
         # 参数，1：类，2.qml导入包名，3:版本，4:版本号，5:qml控件名
         qmlRegisterType(cV.CVQImage, "PyCVQML", 1, 0, "CVQImage")  # 将画图注册到qml中
@@ -23,7 +24,8 @@ class MyWindow(QObject):
 
 
 if __name__ == "__main__":
-    app = QGuiApplication().instance()
+    # app = QGuiApplication().instance()
+    app = QtWidgets.QApplication(sys.argv)
     if app is None:
         app = QGuiApplication(sys.argv)
     window = MyWindow()
