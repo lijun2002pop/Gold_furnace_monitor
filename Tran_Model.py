@@ -206,17 +206,22 @@ class CameraInfo(QObject):
         self.init_config_Area()
         self.take_video_start = False
 
-    @Slot()
+    @Slot(result=str)
     def take_photo(self):
         #抓拍
         screenshot_path = os.path.join(self.backend.save_path, 'screenshot_{}.png'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S')))
-        print(screenshot_path)
         cv2.imwrite(screenshot_path, self._image)
+        return screenshot_path
 
-    @Slot()
+    @Slot(result=str)
     def take_video(self):
         #录像
         self.take_video_start = True
+        main_capture = self.backend._handlers[0]
+        if main_capture.is_recording and main_capture.output_file:
+            return main_capture.output_file
+        return None
+
 
     @Property(QImage, notify=ImageChanged)
     def image(self):
@@ -323,8 +328,14 @@ class CameraInfo(QObject):
         for area in self.areas:
             result.append(area.get_rect())
         return result
-    @Slot(str)
-    def save_draw(self,data):
+
+    @Slot(str,str,str)
+    def save_draw(self,data,temp1,temp2):
+        try:
+            temp1 = float(temp1)
+            temp2 = float(temp2)
+        except Exception as e:
+            temp1 = temp2 = 0
         # 解析 JSON 数据
         rectangles = json.loads(data)
         # 提取 x, y, x1, y1
@@ -335,11 +346,13 @@ class CameraInfo(QObject):
             y = rect["y"]
             x1 = x + rect["width"]
             y1 = y + rect["height"]
+            WarnTemp1 = temp1
+            WarnTemp2 = temp2
             StationCode = self.backend.Camera.code
             StationName = self.backend.Camera.name
             AreaName = '%d#区域'%(i+1)
             RecordTime = datetime.datetime.now()
-            result.append({"SPointX": x, "SPointY": y, "EPointX": x1, "EPointY": y1,
+            result.append({"SPointX": x, "SPointY": y, "EPointX": x1, "EPointY": y1,"WarnTemp1":WarnTemp1,"WarnTemp2":WarnTemp2,
                            "StationCode":StationCode,"StationName":StationName,"AreaName":AreaName,"RecordTime":RecordTime})
         #删除原区域
         self.sql_orm_executor.Sys_MonitorArea_All_delete()

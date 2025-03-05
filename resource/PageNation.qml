@@ -32,13 +32,14 @@ RowLayout{
             id:ptext
             font.pixelSize:height* 0.8
             text: "共 " + count + " 条记录    到 "
+            color:"#0099ff"
+
         }
     FluTextBox {
         id:gopage
         width:parent.width*0.05
         height:parent.height *0.4
         placeholderText: "页码"
-        color:"black"
         onCommit: {
             if(gopage.text){
                 backend.update_page(search,gopage.text,total)
@@ -47,6 +48,7 @@ RowLayout{
     }
     Label {
         font.pixelSize:height* 0.8
+        color:"#0099ff"
         text: "页"
     }
 }

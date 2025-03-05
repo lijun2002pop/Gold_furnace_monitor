@@ -8,7 +8,7 @@ Rectangle   {
     id: grid
     width: parent.width
     height: parent.height
-    color: 'blue'
+    color: 'transparent'
     RowLayout {
         id: mainLayout
         anchors.fill: parent
@@ -16,26 +16,25 @@ Rectangle   {
         Rectangle {
             id: imageContainer
             Layout.fillHeight: true
-            Layout.preferredWidth: parent.width * 0.3
+            Layout.preferredWidth: parent.width * 0.36
             color: 'transparent'
             RowLayout {
                 anchors.fill: parent
-                Image {
-                    id: logo
-                    Layout.preferredWidth: parent.width * 0.5
-                    Layout.preferredHeight: parent.height
-                    Layout.alignment: Qt.AlignLeft
-                    smooth: true
-                    source: "../Source/logo.png"
-                }
+                  Text{
+                        text:backend.title_name
+                        color:'#0099ff'
+                        font.pixelSize:26
+                        font.bold:true
+                        anchors.centerIn: parent
+                    }
             }
         }
 
         // 右侧按钮区域
         Rectangle {
             id: buttonContainer
-            Layout.fillHeight: true
-            Layout.preferredWidth: parent.width * 0.65
+            Layout.preferredHeight: parent.height * 0.85
+            Layout.preferredWidth: parent.width * 0.58
             color: 'transparent'
             RowLayout {
                 anchors.fill: parent
@@ -183,12 +182,14 @@ Rectangle   {
         Rectangle {
             id: rightimg
             Layout.fillHeight: true
-            Layout.preferredWidth: parent.width * 0.05
+            Layout.preferredWidth: parent.width * 0.04
             color: 'transparent'
             FluIcon{
-                anchors.centerIn: parent
+                anchors.left: buttonContainer.right
+                anchors.verticalCenter: parent.verticalCenter
                 iconSource: FluentIcons.PowerButton
-                iconSize:parent.height*0.4
+                iconSize:parent.height*0.2
+                iconColor:"#0099ff"
                 MouseArea{
                     anchors.fill: parent
                     onClicked:windows.close()

@@ -31,10 +31,10 @@ Rectangle {
     Image {
         anchors.fill: parent
         smooth: true
-        source: "../Source/grid.png"
+        source: "../Source/Images/left_rect.png"
     }
     ColumnLayout {
-        anchors.margins: 10
+        anchors.margins: 20
         anchors.fill: parent
         Rectangle {
             color: "transparent"
@@ -51,14 +51,21 @@ Rectangle {
                     anchors.fill: parent
                     Label {
                         id:selectcarame
-                        width: parent.width*0.1
+                        Layout.preferredWidth: parent.width*0.2
                         text: "选择相机："
                         font.bold: true
                         font.pixelSize:height
+                        color:'#0099ff'
+                        Image {
+                            anchors.bottom:parent.bottom
+                            height: parent.height*0.5
+                            width: parent.width
+                            smooth: true
+                            source: "../Source/Images/text_bg.png"
+                        }
                     }
                     FluComboBox {
-                        width: parent.width*0.3
-                        anchors.left: selectcarame.right
+                        Layout.preferredWidth: parent.width*0.4
                         id: cameraComboBox
                         model: [backend.camera.name, ]
                     }
@@ -79,7 +86,7 @@ Rectangle {
                         width: parent.width *0.4
                         height: parent.height*0.6
                         smooth: true
-                        source: "../Source/grid.png"
+                        source: "../Source/Images/text_left.png"
 
                         Label {
                             id:area
@@ -95,7 +102,7 @@ Rectangle {
                     width: parent.width *0.6
                     height: parent.height*0.6
                     smooth: true
-                    source: "../Source/grid.png"
+                    source: "../Source/Images/text_right.png"
                     Row {
                         height: parent.height
                         width: parent.width
@@ -154,15 +161,22 @@ Rectangle {
                         anchors.fill: parent
                         Label {
                             id:selectarea
-                            width: parent.width*0.1
+                            Layout.preferredWidth: parent.width*0.2
                             text: "选择区域："
                             font.bold: true
                             font.pixelSize:height
+                            color:'#0099ff'
+                            Image {
+                                anchors.bottom:parent.bottom
+                                height: parent.height*0.5
+                                width: parent.width
+                                smooth: true
+                                source: "../Source/Images/text_bg.png"
+                            }
                         }
                         FluComboBox {
                             id:area_id
-                            width: parent.width*0.3
-                            anchors.left: selectarea.right
+                            Layout.preferredWidth: parent.width*0.4
                             model: backend.camera.get_areas_name()
                             function update_temp(){
                                 var result =  backend.camera.get_areas_temp(currentValue)
@@ -193,7 +207,7 @@ Rectangle {
                         width: parent.width *0.4
                         height: parent.height
                         smooth: true
-                        source: "../Source/grid.png"
+                        source: "../Source/Images/text_left.png"
 
                         Label {
                             anchors.centerIn: parent
@@ -213,7 +227,7 @@ Rectangle {
                             width: parent.width
                             height: parent.height*0.33
                             smooth: true
-                            source: "../Source/grid.png"
+                            source: "../Source/Images/text_right.png"
                             RowLayout {
                                 anchors.centerIn: parent
                                 Text {
@@ -242,7 +256,7 @@ Rectangle {
                             width: parent.width
                             height: parent.height*0.33
                             smooth: true
-                            source: "../Source/grid.png"
+                            source: "../Source/Images/text_right.png"
                             RowLayout {
                                 anchors.centerIn: parent
                                 Text {
@@ -309,7 +323,7 @@ Rectangle {
                         width: parent.width *0.4
                         height: parent.height
                         smooth: true
-                        source: "../Source/grid.png"
+                        source: "../Source/Images/text_left.png"
                         Label {
                             anchors.centerIn: parent
                             font.bold: true
@@ -328,7 +342,7 @@ Rectangle {
                             width: parent.width
                             height: parent.height*0.25
                             smooth: true
-                            source: "../Source/grid.png"
+                            source: "../Source/Images/text_right.png"
                             RowLayout {
                                 anchors.centerIn: parent
                                 Text {
@@ -357,7 +371,7 @@ Rectangle {
                             width: parent.width
                             height: parent.height*0.25
                             smooth: true
-                            source: "../Source/grid.png"
+                            source: "../Source/Images/text_right.png"
                             RowLayout {
                                 anchors.centerIn: parent
                                 Text {
@@ -369,8 +383,9 @@ Rectangle {
                                     id:save
                                     cleanEnabled:false
                                     Layout.fillWidth: true
-                                    Layout.minimumWidth: parent.width * 0.3
-                                    Layout.maximumWidth: parent.width * 0.6
+                                    //Layout.minimumWidth: parent.width * 0.5
+                                    //Layout.maximumWidth: parent.width * 0.6
+                                    Layout.preferredWidth: parent.width *0.5
                                     text: ""
                                     color:"green"
                                     MouseArea{
@@ -415,7 +430,7 @@ Rectangle {
                                 width: parent.width *0.5
                                 height: parent.height
                                 smooth: true
-                                source: "../Source/grid.png"
+                                source: "../Source/Images/text_right.png"
                                 RowLayout {
                                     anchors.centerIn: parent
                                     Text {
@@ -441,9 +456,11 @@ Rectangle {
                                          MouseArea{
                                             anchors.fill: parent
                                             onClicked:{
-                                                        backend.camera.take_photo()
+                                                        var path = backend.camera.take_photo()
                                                         catchpic.color="red"
-                                                       colorTimer.start() }
+                                                        colorTimer.start()
+                                                        infoBar.showSuccess('图片已保存为'+path,2000)
+                                                        }
                                         }
                                     }
                                 }
@@ -452,7 +469,7 @@ Rectangle {
                                 width: parent.width *0.5
                                 height: parent.height
                                 smooth: true
-                                source: "../Source/grid.png"
+                                source: "../Source/Images/text_right.png"
                                 RowLayout {
                                     anchors.centerIn: parent
                                     Text {
@@ -469,8 +486,10 @@ Rectangle {
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked:{
-                                                        backend.camera.take_video()
-                                                        catchvideo.color =catchvideo.color=="#b6f6ff"?"red":"#b6f6ff"}
+                                                    var res = backend.camera.take_video()
+                                                    if (res){ infoBar.showSuccess('录像已保存为'+res,3000)}
+                                                    catchvideo.color =catchvideo.color=="#b6f6ff"?"red":"#b6f6ff"
+                                                    }
                                         }
                                     }
                                 }

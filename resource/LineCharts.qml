@@ -23,7 +23,7 @@ Rectangle {
         }
         Rectangle {
             id:chartContainer
-            color: "lightgray"
+            color: "lightblue"
             Layout.fillWidth: true
             Layout.preferredHeight: parent.height *0.95
             FluChart{
@@ -36,7 +36,7 @@ Rectangle {
                                 label: '温度',
                                 data: obj.ydata,
                                 fill: true,
-                                borderColor: 'rgb(75, 192, 192)',
+                                borderColor: 'rgb(70, 190, 255)',
                                 pointBackgroundColor:'green',
                                 pointRadius:5,
                                 tension: 0.1
@@ -44,22 +44,7 @@ Rectangle {
                 }
             }
             chartOptions: { return {
-                        scales: {
-                            x: {
-                                display: true,
-                                title: {
-                                    display: true,
-                                    text: 'Month' // X轴标题
-                                }
-                            },
-                            y: {
-                            display: true,
-                            title: {
-                              display: true,
-                              text: 'Value'
-                            }
-                          }
-                        },
+
                         maintainAspectRatio: false,
                         title: {
                             display: true,

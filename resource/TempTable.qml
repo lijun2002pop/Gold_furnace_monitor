@@ -27,7 +27,7 @@ ColumnLayout {
                     text: headers[index]  // 使用 headers 列表中的元素
                     anchors.centerIn: parent
                     font.bold: true
-                    color: "white"
+                    color: "#F109FFE9"
                     font.pixelSize: headerRow.height * 0.35
                 }
             }
@@ -47,8 +47,8 @@ ColumnLayout {
             model: tabledata
             delegate: Rectangle {
                 width: listView.width
-                height: listView.height * 0.1
-                color: index % 2 === 0 ? "#F0F0F0" : "#E0E0E0"
+                height: listView.height * 0.15
+                color: index % 2 === 0 ? "#FF0E1532" : "#FF122246"
                 border.color: "black"
                 border.width: 1
 
@@ -68,8 +68,8 @@ ColumnLayout {
                             Text {
                                 text: modelData  // 从当前行数据中获取对应列的数据
                                 anchors.centerIn: parent
-                                color:index==2?"green":"black"
-                                font.pixelSize: listView.height * 0.05
+                                color:index==2?"#FF05EB58":"white"
+                                font.pixelSize: listView.height * 0.04
                                 style: modelData.endsWith(".jpg") ? Text.Underline : Text.Normal
                                 MouseArea {
                                     anchors.fill: parent

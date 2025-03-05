@@ -8,9 +8,9 @@ import PyCVQML 1.0 as Pycv
 Window {
     id: grid
     visible: true
-    width: 1200
+    width: 1280
     height: 700
-    title: "1#相机区域绘制"
+    title: "区域快速绘制"
     onRectanglesChanged: {
         canvas.requestPaint(); // 当矩形列表变化时，重新绘制画布
     }
@@ -143,7 +143,7 @@ Window {
             FluButton {
                 text: "保存"
                 onClicked: {
-                    backend.camera.save_draw(JSON.stringify(rectangles)); // 保存矩形
+                    backend.camera.save_draw(JSON.stringify(rectangles),d_val1.text,d_val2.text); // 保存矩形
                     grid.visible = false; // 关闭窗口
                 }
             }
@@ -152,6 +152,11 @@ Window {
                 onClicked: {
                     grid.visible = false; // 关闭窗口
                 }
+            }
+            Text {
+                text: "注意:保存会清除原有区域设置，将重新生成矩形区域！！！"
+                font.bold: true
+                color:"red"
             }
         }
 
@@ -165,13 +170,48 @@ Window {
                 margins: 10
             }
             spacing: 10
-
+            RowLayout {
+                Text {
+                    text: "一般报警下限：>="
+                    color:"black"
+                }
+                FluTextBox {
+                    id:d_val1
+                    cleanEnabled:true
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: parent.width *0.4
+                    text: "0"
+                    color:"red"
+                }
+                Text {
+                    text: "°C"
+                    color:"black"
+                }
+            }
+            RowLayout {
+                Text {
+                    text: "严重报警下限：>="
+                    color:"black"
+                }
+                FluTextBox {
+                    id:d_val2
+                    cleanEnabled:true
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: parent.width *0.4
+                    text: "0"
+                    color:"red"
+                }
+                Text {
+                    text: "°C"
+                    color:"black"
+                }
+            }
             // 显示所有矩形
             Repeater {
                 model: rectangles
                 delegate: Row {
                     spacing: 10
-                    Button {
+                    FluButton {
                         text: "删除"
                         onClicked: {
                             var temp = rectangles.slice(); // 创建数组副本

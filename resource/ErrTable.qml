@@ -5,12 +5,12 @@ import QtQuick.Controls 2.15
 ColumnLayout {
     function getcolor(index) {
         if (index == 1) {
-            return 'gray'
+            return '#FFEBE724'
         }
         if(index == 3){
             return 'red'
         }
-        return 'black'
+        return 'white'
     }
     property var widthsRatio: [0.1, 0.15, 0.2, 0.3, 0.25,]
     property var headers: ["序号", "异常类型", "相机IP", "异常信息记录","异常发生时间"]
@@ -37,7 +37,7 @@ ColumnLayout {
                     text: headers[index]  // 使用 headers 列表中的元素
                     anchors.centerIn: parent
                     font.bold: true
-                    color: "white"
+                    color: "#F109FFE9"
                     font.pixelSize: headerRow.height * 0.35
                 }
             }
@@ -59,7 +59,7 @@ ColumnLayout {
             delegate: Rectangle {
                 width: listView.width
                 height: listView.height * 0.1
-                color: index % 2 === 0 ? "#F0F0F0" : "#E0E0E0"
+                color: index % 2 === 0 ?"#FF0E1532" : "#FF122246"
                 border.color: "black"
                 border.width: 1
 
@@ -81,7 +81,7 @@ ColumnLayout {
                                 text: modelData  // 从当前行数据中获取对应列的数据
                                 anchors.centerIn: parent
                                 color:getcolor(index)
-                                font.pixelSize: listView.height * 0.05
+                                font.pixelSize: listView.height * 0.04
                                 style: modelData.endsWith(".jpg") ? Text.Underline : Text.Normal
                                 MouseArea {
                                     anchors.fill: parent

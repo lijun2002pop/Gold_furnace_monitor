@@ -20,14 +20,14 @@ class MainCapture(BackendThread):
         self.height = 1040
         self.outwriter = None
         self.is_recording = False
+        self.output_file = ''
 
 
     def create_writer(self):
         timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-        output_file = os.path.join(self.backend.save_path, f'{timestamp}.avi')
-        print(output_file)
+        self.output_file = os.path.join(self.backend.save_path, f'{timestamp}.avi')
         fourcc = cv2.VideoWriter_fourcc(*'XVID')  # 使用 XVID 编码器（适用于 AVI 格式）
-        self.outwriter = cv2.VideoWriter(output_file, fourcc, self.fps, (self.width, self.height))
+        self.outwriter = cv2.VideoWriter(self.output_file, fourcc, self.fps, (self.width, self.height))
 
     def handle(self):
         url = r"C:\Users\lijun\Desktop\project\bayuquan2023\CLIENT01\download\D01_20220714.mp4"
@@ -53,6 +53,7 @@ class MainCapture(BackendThread):
                 else:
                     print("Stopped recording.", )
                     self.outwriter.release()
+                    self.output_file=""
 
             frame = cv2.resize(frame, (960, 640))
             self.backend.camera.image = frame

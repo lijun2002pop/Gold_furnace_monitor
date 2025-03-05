@@ -11,7 +11,7 @@ Rectangle {
     property var errlist: obj.err_data
     width: parent.width
     height: parent.height
-    color: 'lightgray'
+    color: 'transparent'
     RowLayout {
         anchors.margins: parent.height *0.05
         anchors.fill: parent
@@ -23,8 +23,17 @@ Rectangle {
             Image {
                     anchors.fill: parent
                     smooth: true
-                    source: "../Source/grid.png"
+                    source: "../Source/Images/chart_rect.png"
                 }
+            Text{
+                text:"累计报警统计"
+                color:'#0099ff'
+                font.pixelSize:26
+                font.bold:true
+                anchors.top: parent.top
+                anchors.topMargin:parent.height*0.038
+                anchors.horizontalCenter: chart1.horizontalCenter
+            }
             FluChart{
                 id:chart1
                 anchors.margins: parent.height *0.05
@@ -39,9 +48,9 @@ Rectangle {
                         datasets: [{
                                 data: [500, 10, 5],
                                 backgroundColor: [
-                                    'rgb(255, 99, 132)',
-                                    'rgb(54, 162, 235)',
-                                    'rgb(255, 205, 86)'
+                                    'rgb(1, 114, 255)',
+                                    'rgb(70, 248, 186)',
+                                    'rgb(255, 205, 0)'
                                 ],
                                 hoverOffset: 4
                             }]
@@ -50,12 +59,6 @@ Rectangle {
                 chartOptions: { return {
                         cutoutPercentage: 50, // 设置空心大小为50%，你可以根据需要调整这个值
                         maintainAspectRatio: false,
-                        title: {
-                            display: true,
-                            text: '累计报警统计',
-                            fontSize: 24,  // 调整字体大小，这里设置为24，你可以根据需要调整
-                            fontColor: '#FF53FFFF'  // 设置字体颜色为绿色
-                        },
                         tooltips: {
                             mode: 'index',
                             intersect: false,
@@ -69,10 +72,8 @@ Rectangle {
                             display: true,
                             position: 'right', // 将图例放置在右侧
                             labels: {
-                                // 设置图例标签的字体大小
                                 fontSize: 18, // 您可以根据需要调整这个值
-                                // 如果需要，还可以设置其他样式，如字体颜色
-                                fontColor: '#333333' // 深灰色，例如
+                                fontColor: 'white'
                             }
                         }
                     }
@@ -86,11 +87,20 @@ Rectangle {
             Image {
                     anchors.fill: parent
                     smooth: true
-                    source: "../Source/grid.png"
+                    source: "../Source/Images/chart_rect.png"
                 }
+            Text{
+                text:"累计异常统计"
+                color:'#0099ff'
+                font.pixelSize:26
+                font.bold:true
+                anchors.top: parent.top
+                anchors.topMargin:parent.height*0.038
+                anchors.horizontalCenter: chart2.horizontalCenter
+            }
             FluChart{
                 id:chart2
-                anchors.margins: parent.height *0.05
+                anchors.margins: parent.height *0.1
                 anchors.fill: parent
                 chartType: "bar"
                 chartData: { return {
@@ -104,21 +114,21 @@ Rectangle {
                             barPercentage:0.5,
                             label: '网络异常 '+errlist[0],
                             data: [errlist[0], 0, 0],
-                            backgroundColor: 'red',
+                            backgroundColor: '#F1C230EB',
                             stack: 'exceptions' // 使用相同的堆叠标签来将所有数据集堆叠在一起
                         },
                         {
                             barPercentage:0.5,
                             label: '温度趋势异常 '+errlist[1],
                             data: [0, errlist[1], 0], // 只有第二个数据点有效，其余为0
-                            backgroundColor: 'yellow',
+                            backgroundColor: '#F5EB05CE',
                             stack: 'exceptions'
                         },
                         {
                             barPercentage:0.5,
                             label: '其他异常 '+errlist[2],
                             data: [0, 0, errlist[2]], // 只有第三个数据点有效，其余为0
-                            backgroundColor: 'pink',
+                            backgroundColor: '#FF1CDCEB',
                             stack: 'exceptions'
                         }
                     ]
@@ -127,12 +137,6 @@ Rectangle {
                 chartOptions: { return {
                        responsive: true,
                         maintainAspectRatio: false,
-                        title: {
-                            display: true,
-                            text: '累计异常统计',
-                            fontSize: 24,
-                            fontColor: '#FF53FFFF'
-                        },
                         tooltips: {
                             mode: 'index',
                             intersect: false,
@@ -150,9 +154,27 @@ Rectangle {
                                 // 设置图例标签的字体大小
                                 fontSize: 18, // 您可以根据需要调整这个值
                                 // 如果需要，还可以设置其他样式，如字体颜色
-                                fontColor: '#333333' // 深灰色，例如
+                                fontColor: 'white'
                             }
                         },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: 'white' // 设置 X 轴刻度和标签颜色为白色
+                                },
+                                grid: {
+                                    color: 'white' // 设置 X 轴网格线颜色（可选）
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: 'white' // 设置 Y 轴刻度和标签颜色为白色
+                                },
+                                grid: {
+                                    color: 'white' // 设置 Y 轴网格线颜色（可选）
+                                }
+                            }
+                        }
                     }
                 }
             }

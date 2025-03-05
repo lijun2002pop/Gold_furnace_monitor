@@ -17,7 +17,7 @@ Rectangle {
             spacing: 5
             Label {
                 text: "开始时间:"
-                color: "black"
+                color: "#0099ff"
                 font.pixelSize: parent.height *0.6
             }
             FluFilledButton{
@@ -34,7 +34,7 @@ Rectangle {
 
             Label {
                 text: "-"
-                color: "black"
+                color: "white"
                 font.pixelSize: 20
                 horizontalAlignment: Text.AlignHCenter
             }
