@@ -1,6 +1,6 @@
 {
-    "title-name": "高炉监测测试",
+    "title-name": "高炉炉体外层安全状态在线监测系统",
     "conn": "mssql+pymssql://sa:Anchor.1234@127.0.0.1/Furnace?charset=utf8",
-    "save-path": "C:/Users/lijun/Desktop/project/Gold_furnace_monitor/tools",
+    "save-path": "C:/Users/lijun/Desktop/project/Gold_furnace_monitor/configs",
     "save-interval": 50
 }

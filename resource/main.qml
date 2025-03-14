@@ -104,7 +104,7 @@ Window {
                         Pycv.CVQImage{
                             anchors.margins: 5
                             anchors.fill:parent
-                            image:backend.camera.image
+                            image:backend.camera.drawselectedimage
                         }
                     }
                 }

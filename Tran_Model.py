@@ -203,6 +203,7 @@ class CameraInfo(QObject):
         self.areas = []
         self._image =  None
         self._cached_drawimage = None  # 缓存处理后的图像
+        self._cached_drawselectedimage = None  # 缓存处理后的选中图像
         self.init_config_Area()
         self.take_video_start = False
 
@@ -210,7 +211,7 @@ class CameraInfo(QObject):
     def take_photo(self):
         #抓拍
         screenshot_path = os.path.join(self.backend.save_path, 'screenshot_{}.png'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S')))
-        cv2.imwrite(screenshot_path, self._image)
+        cv2.imwrite(screenshot_path, self._cached_drawimage)
         return screenshot_path
 
     @Slot(result=str)
@@ -233,6 +234,7 @@ class CameraInfo(QObject):
             return
         self._image = image
         self._cached_drawimage = None  # 清空缓存
+        self._cached_drawselectedimage = None  # 清空缓存
         self.ImageChanged.emit(self._image)
 
     @Property(QImage, notify=ImageChanged)
@@ -246,6 +248,19 @@ class CameraInfo(QObject):
             self._cached_drawimage = image  # 缓存处理后的图像
         return cq.ToQImage(self._cached_drawimage)
 
+    @Property(QImage, notify=ImageChanged)
+    def drawselectedimage(self):
+        if self._image is None:
+            return None
+        if self._cached_drawselectedimage is None:  # 如果缓存为空，重新绘制
+            image = self._image.copy()  # 创建图像的副本
+            data = self.get_draw_selected_rect()
+            if data:
+                index,item = data
+                image = self.draw_rectangle(index, image, item[0], item[1])
+            self._cached_drawselectedimage = image  # 缓存处理后的图像
+        return cq.ToQImage(self._cached_drawselectedimage)
+
     @Property(str, notify=myNotified)
     def name(self):
         return self._name
@@ -254,6 +269,7 @@ class CameraInfo(QObject):
     def get_areas_temp(self,area_name):
         for area in self.areas:
             if area.name == area_name:
+                self._selected_name = area_name
                 return [area.temp1,area.temp2]
         return [0,0]
 
@@ -270,8 +286,11 @@ class CameraInfo(QObject):
         # 获取相机的区域
         self.clear()
         res = self.sql_orm_executor.Sys_MonitorArea_All()
+        self._selected_name = None
         for item in res:
             self.add_area(CameraAreaInfo(*item))
+            if self._selected_name is None:
+                self._selected_name = item[0]
 
     def draw_rectangle(self,index,image,start_point,end_point,line_lenth=20, color=(0, 0, 255), thickness=2):
         cv2.line(image, start_point, (start_point[0] + line_lenth, start_point[1]), color, thickness)
@@ -328,6 +347,13 @@ class CameraInfo(QObject):
         for area in self.areas:
             result.append(area.get_rect())
         return result
+
+    def get_draw_selected_rect(self):
+        for i in range(len(self.areas)):
+            areas = self.areas[i]
+            if areas.name == self._selected_name:
+                return [i,areas.get_rect()]
+        return None
 
     @Slot(str,str,str)
     def save_draw(self,data,temp1,temp2):

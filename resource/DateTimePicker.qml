@@ -45,62 +45,66 @@ Window {
         }
         windows.visible = false
     }
+    Rectangle {
+        id: drawingArea
+        anchors.fill: parent
+        color: "#0099ff"
+        FluTextBox {
+            anchors.margins: 35
+            id: searchInput
+            cleanEnabled:false
+            placeholderText: "请输入日期"
+            width: parent.width
+            height: 50
+            font.pixelSize: 14
+            text: formatDateTime(selectedDateTime)
+            onCommit: {
+                parseDateTime(searchInput.text);
+            }
+        }
 
-    FluTextBox {
-        anchors.margins: 35
-        id: searchInput
-        cleanEnabled:false
-        placeholderText: "请输入日期"
-        width: parent.width
-        height: 50
-        font.pixelSize: 14
-        text: formatDateTime(selectedDateTime)
-        onCommit: {
-            parseDateTime(searchInput.text);
+        // Calendar Picker to select date
+        FluCalendarPicker {
+            anchors.top: searchInput.bottom
+            id: date
+            current: selectedDateTime
+            onAccepted: {
+                selectedDateTime = new Date(selectedDateTime.setFullYear(current.getFullYear(), current.getMonth(), current.getDate()))
+            }
         }
-    }
 
-    // Calendar Picker to select date
-    FluCalendarPicker {
-        anchors.top: searchInput.bottom
-        id: date
-        current: selectedDateTime
-        onAccepted: {
-            selectedDateTime = new Date(selectedDateTime.setFullYear(current.getFullYear(), current.getMonth(), current.getDate()))
+        // Time Picker to select time
+        FluTimePicker {
+            width: 100
+            id: time
+            anchors.left: date.right
+            anchors.top: searchInput.bottom
+            hourFormat: FluTimePickerType.HH
+            current: selectedDateTime
+            onAccepted: {
+                selectedDateTime = new Date(selectedDateTime.setHours(current.getHours(), current.getMinutes(), current.getSeconds()))
+            }
         }
-    }
-
-    // Time Picker to select time
-    FluTimePicker {
-        width: 100
-        id: time
-        anchors.left: date.right
-        anchors.top: searchInput.bottom
-        hourFormat: FluTimePickerType.HH
-        current: selectedDateTime
-        onAccepted: {
-            selectedDateTime = new Date(selectedDateTime.setHours(current.getHours(), current.getMinutes(), current.getSeconds()))
+        FluButton{
+            id:submit
+            anchors.left: time.right
+            anchors.top: searchInput.bottom
+            height:time.height
+            width:200
+            text:"确认"
+            onClicked: {
+                parseDateTime(searchInput.text);
+            }
         }
-    }
-    FluButton{
-        id:submit
-        anchors.left: time.right
-        anchors.top: searchInput.bottom
-        height:time.height
-        width:200
-        text:"确认"
-        onClicked: {
-            parseDateTime(searchInput.text);
-        }
-    }
-    FluButton{
-        anchors.left: submit.right
-        anchors.top: searchInput.bottom
-        height:time.height
-        width:200
-        text:"清除"
-        onClicked: {
-            parseDateTime("");
+        FluButton{
+            anchors.left: submit.right
+            anchors.top: searchInput.bottom
+            height:time.height
+            width:200
+            text:"清除"
+            onClicked: {
+                parseDateTime("");
+            }
         }
     }
 }

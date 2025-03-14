@@ -22,9 +22,10 @@ Window {
     property bool isDrawing: false
     property var currentRect: null // 当前正在绘制的矩形
 
-    Item {
+    Rectangle {
         id: drawingArea
         anchors.fill: parent
+        color: "#0099ff"
 
         // 显示图像
         Pycv.CVQImage {
@@ -154,7 +155,7 @@ Window {
                 }
             }
             Text {
-                text: "注意:保存会清除原有区域设置，将重新生成矩形区域！！！"
+                text: "注意:保存会清除原有区域设置，将重新生成区域！！！"
                 font.bold: true
                 color:"red"
             }

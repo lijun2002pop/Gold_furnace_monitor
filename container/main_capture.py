@@ -33,17 +33,17 @@ class MainCapture(BackendThread):
         url = r"C:\Users\lijun\Desktop\project\bayuquan2023\CLIENT01\download\D01_20220714.mp4"
         cap = cv2.VideoCapture(url)
         self.fps = cap.get(cv2.CAP_PROP_FPS)  # 帧率
-        self.width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  # 帧宽度
-        self.height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 帧高度
+        self.width = 960  # 帧宽度
+        self.height = 640  # 帧高度
         ret, frame = cap.read()
         while ret and not self.backend.stopped:
             # 显示时间
             print_string_value = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
             cv2.putText(frame, print_string_value,
                         (30, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, 0, 4)
-            #存录像
+            # 存录像 -绘制后的
             if self.is_recording and self.outwriter is not None:
-                self.outwriter.write(frame)
+                self.outwriter.write(self.camera._cached_drawimage)
             if self.camera.take_video_start:
                 self.camera.take_video_start = False
                 self.is_recording = not self.is_recording
